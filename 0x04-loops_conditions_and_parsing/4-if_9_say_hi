@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# This is a while loop with a condition
+
+counter=0
+while ((counter < 10));  # Corrected the condition to counter > 0
+do
+    if ((counter == 9)); then  # Added "then" after the if statement
+        echo "Hi"
+    fi
+    echo "Best School"
+    ((counter++))  # Decrement the counter
+done
