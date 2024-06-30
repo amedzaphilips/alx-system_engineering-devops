@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-SERVER_HOST="100.25.138.62"
-ssh ubuntu@$SERVER_HOST -i ~/.ssh/school
+ssh ubuntu@100.25.138.62 -i ~/.ssh/school
 
