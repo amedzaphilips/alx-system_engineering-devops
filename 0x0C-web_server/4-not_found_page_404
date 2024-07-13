@@ -35,7 +35,8 @@ echo "server {
     # Custom 404 page
     error_page 404 /404.html;
     location = /404.html {
-        internal;
+        root /var/www/html;
+    	internal;
     }
 }" > /etc/nginx/sites-available/default
 

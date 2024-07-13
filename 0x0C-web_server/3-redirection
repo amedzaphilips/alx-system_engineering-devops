@@ -13,8 +13,13 @@ sudo echo "server {
     location / {
     	try_files $uri $uri/ =404;
 	}
-    location /redirect_me {
-        return 301 https://google.com;
-    }
+    
 }" > /etc/nginx/sites-available/default
+
+# To redirect 
+NEW_LINE="\\\n\tlocation /redirect_me {\n\t\treturn 301 https://youtu.be/3NPZ-VKoa9Q?si=ewsZuSenvTqyJs3P;\n\t}\n"
+
+# replace a line with NEW_LINE
+sudo sed -i "20i $NEW_LINE" /etc/nginx/sites-available/default
+
 sudo service nginx restart
