@@ -2,8 +2,21 @@
 # Installs and configures nginx web server with a custom 404 page
 
 # Update package list and install nginx
-apt-get update
-apt-get install -y nginx
+sudo apt-get update
+sudo apt-get install nginx -y
+
+# starting the nginx
+sudo service nginx start
+
+# setup to listen on port 80
+sudo ufw allow 'Nginx HTTP'
+
+# giving ownership and mode
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www/html/*
+
+#create an index page
+echo "Hello World!" | sudo tee var/www/html/index.html
 
 # Create a custom 404 page
 echo "Ceci n'est pas une page" > /var/www/html/404.html
@@ -25,3 +38,5 @@ echo "server {
         internal;
     }
 }" > /etc/nginx/sites-available/default
+
+sudo service nginx restart
