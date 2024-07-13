@@ -6,6 +6,7 @@ sudo apt install nginx -y
 
 sudo service nginx start
 
+# shellcheck disable=SC2154
 sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 755 /var/www/html/*
 
@@ -20,7 +21,7 @@ server_config=\
 		root /var/www/html;
 		index index.html index.htm index.nginx-debian.html
 		server_name_;
-		add_header X-Served-By \$hostname;
+		add_header X-Served-By \$hostname; # shellcheck disable=SC2154
 		location / {
 			try_files \$uri \$uri/ =404;
 		}
