@@ -1,0 +1,39 @@
+#!/bin/bash
+#configures an nginx server 
+
+sudo apt update
+sudo apt install nginx -y
+
+sudo service nginx start
+
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www/html/*
+
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+server_config=\
+"server {
+		listen 80 default_server;
+		listen [::]:80 default_server;
+		root /var/www/html;
+		index index.html index.htm index.nginx-debian.html
+		server_name_;
+		add_header X-Served-By \$hostname;
+		location / {
+			try_files \$uri \$uri/ =404;
+		}
+		location /redirect_me {
+			return 301 https://www.youtube.com/watch?v=kwqEn3n9B5w&list=PLkqiWyX-_LotUQHQXzeVD6Ogtcok7lObw&index=6;
+		}
+		error_page 404 /404.html;
+		location = /404.html {
+			root /var/www/html;
+			internal;
+		}
+}"
+
+echo "$server_config" | sudo tee /etc/nginx/sites-enabled/default > /dev/null
+
+sudo service nginx restart
