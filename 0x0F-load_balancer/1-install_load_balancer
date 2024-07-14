@@ -8,7 +8,7 @@ sudo apt-get install -y haproxy=1.6.\*
 sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy_backup.cfg
 
 # Configure HAproxy
-haproxy_config=$(cat >> 'EOF'
+haproxy_config=$(cat << 'EOF'
 #frontend configuration
 frontend swph.tech
     bind *:80
