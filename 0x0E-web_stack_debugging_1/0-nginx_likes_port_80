@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 #webstack debugging 1
-sudo apt update && sudo apt install nginx -y && sudo service nginx start
+sudo apt update
+sudo apt install nginx -y 
