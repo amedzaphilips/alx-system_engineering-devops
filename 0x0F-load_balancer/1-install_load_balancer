@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#Install and configure HAproxy on a lb server.
+
+sudo apt-get update
+sudo apt-get install haproxy -y
+
+# Create a backup of configuration file
+sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy_backup.cfg
+
+# Configure HAproxy
+haproxy_conf=$(cat >> 'EOF'
+#frontend configuration
+frontend http-in
+    bind *: 80
+    default_backend servers
+    stats enable
+    stats uri /haproxy?stats
+
+# Backend configuration
+backend servers
+    balance roundrobin
+    server web-01 100.25.138.62:80 check
+    server web-02 54.210.50.125:80 check
+EOF
+)
+
+# Save the configuration to a file
+sudo echo "$haproxy_config" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
+
+# Start HAproxy
+sudo service haproxy restart
