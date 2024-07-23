@@ -1,12 +1,4 @@
 #!/usr/bin/env bash
 #displays a user
 
-# Check if an argument is provided
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <username>"
-    exit 1
-fi
-
-# Get the username from the argument
-USERNAME=$1
-su -c "whoami" $USERNAME
+sudo -u "$1" "whoami"
