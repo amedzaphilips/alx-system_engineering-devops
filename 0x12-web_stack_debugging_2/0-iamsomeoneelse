@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#displays a user
+su -c "whoami" $1
