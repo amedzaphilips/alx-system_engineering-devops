@@ -1,3 +1,12 @@
 #!/usr/bin/env bash
 #displays a user
-su -c "whoami" $1
+
+# Check if an argument is provided
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <username>"
+    exit 1
+fi
+
+# Get the username from the argument
+USERNAME=$1
+su -c "whoami" $USERNAME
