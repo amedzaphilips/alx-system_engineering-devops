@@ -1,36 +1,8 @@
 #!/usr/bin/env bash
-#configuring nginx to run as a user
-
-# Define the user and group to use for Nginx
-NGINX_USER="nginx"
-NGINX_GROUP="nginx"
-
-# Create the nginx user and group if they don't exist
-if ! id "$NGINX_USER" &>/dev/null; then
-    echo "Creating user and group: $NGINX_USER"
-    sudo useradd -r -s /sbin/nologin "$NGINX_USER"
-    sudo groupadd "$NGINX_GROUP"
-fi
-
-# Update the Nginx configuration to use the nginx user and group
-NGINX_CONF="/etc/nginx/nginx.conf"
-if grep -q "^user" "$NGINX_CONF"; then
-    echo "Updating Nginx configuration to use user $NGINX_USER"
-    sudo sed -i "s/^user .*/user $NGINX_USER $NGINX_GROUP;/" "$NGINX_CONF"
-else
-    echo "Adding user directive to Nginx configuration"
-    sudo sed -i "1i user $NGINX_USER $NGINX_GROUP;" "$NGINX_CONF"
-fi
-
-# Set ownership of Nginx directories
-echo "Setting ownership of Nginx directories"
-sudo chown -R "$NGINX_USER:$NGINX_GROUP" /var/www/html
-sudo chown -R "$NGINX_USER:$NGINX_GROUP" /var/log/nginx
-sudo chown -R "$NGINX_USER:$NGINX_GROUP" /var/lib/nginx
-
-# Restart Nginx to apply changes
-echo "Restarting Nginx service"
-sudo systemctl restart nginx
-
-echo "Nginx has been configured to run as user $NGINX_USER and restarted successfully."
-
+# Fixes server bug
+chmod 644 /etc/nginx/nginx.conf
+sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
+sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
+pkill apache2
+# restart
+su nginx -s /bin/bash -c 'service nginx restart'
