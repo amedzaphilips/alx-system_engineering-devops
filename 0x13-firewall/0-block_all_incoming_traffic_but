@@ -1,0 +1,16 @@
+# Allow SSH traffic first to ensure continuous connection
+sudo ufw allow 22/tcp
+
+# Set default policies
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Allow additional necessary services
+sudo ufw allow 443/tcp
+sudo ufw allow 80/tcp
+
+# Enable UFW
+sudo ufw enable
+
+# Check UFW status
+sudo ufw status
