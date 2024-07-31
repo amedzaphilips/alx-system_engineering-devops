@@ -18,17 +18,11 @@ DATE=$(date +"%d-%m-%Y")
 ARCHIVE_FILE="$DATE.tar.gz"
 
 # Generate the MySQL dump
-mysqldump -u root -p"$MYSQL_ROOT_PASSWORD" --all-databases > "$BACKUP_FILE"
-
-# Check if the dump was successful
-if [ $? -eq 0 ]; then
+if mysqldump -u root -p"$MYSQL_ROOT_PASSWORD" --all-databases > "$BACKUP_FILE"; then
     echo "MySQL dump created successfully."
 
     # Compress the dump file into a tar.gz archive
-    tar -czvf "$ARCHIVE_FILE" "$BACKUP_FILE"
-
-    # Check if the compression was successful
-    if [ $? -eq 0 ]; then
+    if tar -czvf "$ARCHIVE_FILE" "$BACKUP_FILE"; then
         echo "Backup file compressed successfully: $ARCHIVE_FILE"
         # Remove the uncompressed SQL dump
         rm "$BACKUP_FILE"
@@ -38,4 +32,3 @@ if [ $? -eq 0 ]; then
 else
     echo "Error creating MySQL dump."
 fi
-
