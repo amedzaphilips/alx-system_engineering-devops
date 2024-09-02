@@ -1,7 +1,12 @@
-# This is a puppet manifest that installs a package
+# Ensure that pip3 is installed
+package { 'python3-pip':
+  ensure => installed,
+}
 
-package {'flask':
-  ensure   => '2.1.0',
-  name     => 'flask',
-  provider => 'pip3'
+# Install Flask and its dependencies using pip
+exec { 'install_flask_and_dependencies':
+  command => 'pip3 install flask==2.1.0',
+  path    => ['/usr/bin', '/usr/local/bin'],
+  unless  => 'pip3 show flask | grep -q "Version: 2.1.0"',
+  require => Package['python3-pip'],
 }
